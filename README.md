@@ -17,7 +17,9 @@ For the latter option, modify your `Build.scala` like so:
 ```scala
 ...
 
-lazy val bbcode = RootProject(uri("git://github.com/daydev/bbcode-scala.git#master"))
+val bbcodeVersion = "0.1.1" //Select desired version from tags on GitHub
+
+lazy val bbcode = RootProject(uri(s"git://github.com/daydev/bbcode-scala.git#$bbcodeVersion"))
 
 lazy val main = Project(/*your main project declaration*/).dependsOn(bbcode)
 
