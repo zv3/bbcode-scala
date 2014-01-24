@@ -1,3 +1,3 @@
 package org.daydev.scala.bb.parse.lexer
 
-class RegexBbLexerSpec extends BbLexerSpec with RegexBbLexer
+class RegexBbLexerSpec extends BbLexerSpec with GrammarCombinatorsBbLexer

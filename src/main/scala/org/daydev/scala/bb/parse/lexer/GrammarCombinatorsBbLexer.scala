@@ -3,7 +3,7 @@ package org.daydev.scala.bb.parse.lexer
 import scala.language.postfixOps
 import scala.util.parsing.combinator.RegexParsers
 
-trait RegexBbLexer extends BbLexer {
+trait GrammarCombinatorsBbLexer extends BbLexer {
 
   def tokenize(input: String): Seq[BbToken] = BbGrammar.parse(BbGrammar.document, input).getOrElse(Nil)
 
@@ -27,11 +27,9 @@ trait RegexBbLexer extends BbLexer {
 
     def tagName = """[\w\d_-]+""".r
 
-    def attrValue = (
-      "'" ~> """[^']+""".r <~ "'" |
+    def attrValue = "'" ~> """[^']+""".r <~ "'" |
       "\"" ~> """[^"]+""".r <~ "\"" |
       """[^\]]+""".r
-    )
 
   }
 

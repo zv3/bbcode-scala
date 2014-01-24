@@ -1,3 +1,8 @@
 package org.daydev.scala.bb.parse
 
-class TokenStackBbParserSpec extends BbParserSpec with TokenStackBbParser 
+import org.daydev.scala.bb.parse.lexer.GrammarCombinatorsBbLexer
+
+class TokenStackBbParserSpec
+  extends BbParserSpec
+  with TokenStackBbParser
+  with GrammarCombinatorsBbLexer

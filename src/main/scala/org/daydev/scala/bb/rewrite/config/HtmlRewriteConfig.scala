@@ -45,47 +45,49 @@ object HtmlRewriteConfig {
 
   def brRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = <br/>
 
-  def codeRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = <pre>{ tag.children.mkString }</pre>
+  def codeRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq =
+    <pre>{tag.children.mkString}</pre>
 
   def imgRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = tag.attr match {
-    case Some(alt) => <img alt={ alt } src={ content.mkString }/>
-    case None => <img src={ content.mkString }/>
+    case Some(alt) => <img alt={alt} src={content.mkString}/>
+    case None => <img src={content.mkString}/>
   }
 
   def listRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = tag.attr match {
-    case Some(t) if "1AaIi".contains(t) => <ol type={ t }>{ content }</ol>
-    case Some(t) => <ol>{ content }</ol>
-    case None => <ul>{ content }</ul>
+    case Some(t) if "1AaIi".contains(t) => <ol type={t}>{content}</ol>
+    case Some(t) => <ol>{content}</ol>
+    case None => <ul>{content}</ul>
   }
 
   def quoteRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = tag.attr match {
-    case Some(source) => <blockquote cite={ source }>{ content }</blockquote>
-    case None => <blockquote>{ content }</blockquote>
+    case Some(source) => <blockquote cite={source}>{content}</blockquote>
+    case None => <blockquote>{content}</blockquote>
   }
 
   def sizeRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = {
     val sizeValue = tag.attr match {
-      case Some(x) if (x.forall(_.isDigit)) => x + "px"
+      case Some(x) if x.forall(_.isDigit) => x + "px"
       case Some(x) => x
       case None => ""
     }
-    <span style={ s"font-size: $sizeValue" }>{ content }</span>
+    <span style={s"font-size: $sizeValue"}>{content}</span>
   }
 
-  def ttRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = <span style="font-family: monospace">{ content }</span>
+  def ttRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq =
+    <span style="font-family: monospace">{content}</span>
 
   def urlRewrite(tag: BbTag, content: Seq[NodeSeq]): NodeSeq = tag.attr match {
-    case Some(url) => <a href={ url }>{ content }</a>
-    case None => <a href={ content.mkString }>{ content }</a>
+    case Some(url) => <a href={url}>{content}</a>
+    case None => <a href={content.mkString}>{content}</a>
   }
 
   def simple(htmlTag: String): RewriteRule[NodeSeq] =
     (tag, content) =>
-      <tmp>{ content }</tmp>.copy(label = htmlTag)
+      <tmp>{content}</tmp>.copy(label = htmlTag)
 
   def styledSpan(style: String): RewriteRule[NodeSeq] =
     (tag, content) =>
-      <span style={ s"""$style: ${tag.attr.getOrElse("")}""" }>{ content }</span>
+      <span style={s"""$style: ${tag.attr.getOrElse("")}"""}>{content}</span>
 
   def defaultRule(tag: BbTag, content: Seq[NodeSeq]): NodeSeq =
     Text(s"[${tag.name}${tag.attr.map("=" + _).getOrElse("")}]") ++
